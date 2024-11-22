@@ -1,0 +1,232 @@
+<?php
+session_start();
+if (!isset($_SESSION['loggedin'])) {
+    header("Location: register.html");
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage - Find a Friend</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link your CSS file -->
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        background-color: #0f4279;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;  /* Ensure body stretches for full height */
+        overflow-x: hidden; /* Prevent horizontal overflow */
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #002c5c;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensure it's on top of other content */
+        }
+
+        .header-container a {
+        color: white; /* Change this to your desired link color */
+        text-decoration: none; /* Remove underline if desired */
+        }
+
+        .header-container a:hover {
+        color: #60d3ec; /* Change this to a hover color if desired */
+        }
+
+        .header-container .feature {
+        margin: 0 5px; /* Adjust margin for closer spacing */
+        }
+
+        .header-container {
+        display: flex;                /* Use flexbox */
+        align-items: center;         /* Center items vertically */
+        justify-content: center; /* Distribute space between items */
+        padding: 0 20px;            /* Add horizontal padding */
+        }  
+
+        /* Centered title with margin */
+        .container h2 {
+            text-align: center; /* Center the title */
+            margin-top: 200px; /* Position it lower */
+            margin-bottom: 210px;
+            font-size: 60px; /* Change this value to adjust the font size */
+        }
+
+        /* Container for content */
+        .container {
+            position: relative;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90vw; /* Set width to 90% of the viewport width */
+            max-width: 900px;
+            margin-top: 150px; /* Adjust margin to push content below fixed header */
+            margin-bottom: 150px auto;
+            height: 1000px; /* Set height to 80% of the viewport height */
+        }
+
+        /* Logout Button */
+        .logout-button {
+            position: absolute;
+            bottom: 18px; /* Adjust this value for spacing from bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d44c2d;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            display: none; /* Hide initially */
+            max-width: 150px;
+            text-align: center;
+        }
+
+        .logout-button:hover {
+            background-color: #c73a29;
+        }
+
+        /* Explanations for the features */
+        .explanation-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .explanation-section div {
+            flex: 1;
+            margin: 0 10px;
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Initially positioned lower */
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transition */
+        }
+
+        .explanation-section div.visible {
+            opacity: 1; /* Become visible */
+            transform: translateY(0); /* Move to final position */
+        }
+
+        .explanation-section p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* Responsive: Stack paragraphs vertically on small screens */
+        @media (max-width: 768px) {
+            .explanation-section {
+                flex-direction: column;
+            }
+            .explanation-section div {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Find A Friend</h1>
+        <div class="header-container">
+            <div class="feature">
+                <a href="browse.html">Browse Friends |</a>
+            </div>
+            <div class="feature">
+                <a href="message_board.html">message board |</a>
+            </div>
+            <div class="feature">
+                <a href="schedule.html">Schedule a Meeting |</a>
+            </div>
+            <div class="feature">
+                <a href="review.html">Review Your Friend |</a>
+            </div>
+            <div class="feature">
+                <a href="mailto:azkizhraa@gmail.com">Contact Us</a>
+            </div>            
+        </div>
+    </div>
+    <div class="container">
+        <h2>A Place To Connect With People Around The World!</h2>
+        <div class="back-button">
+            <a href="logout.php" class="logout-button">Logout</a>
+        </div>
+        <div class="explanation-section">
+            <div>
+                <p><strong>Browse Friends:</strong> Discover new friends based on shared interests and mutual connections.</p>
+            </div>
+            <div>
+                <p><strong>Messaging:</strong> Stay up-to-date with all your social activities.</p>
+            </div>
+            <div>
+                <p><strong>Schedule A Meeting and Hang Out:</strong> Arrange meetups with friends seamlessly.</p>
+            </div>
+            <div>
+                <p><strong>Rate Your Friends:</strong> Provide feedback and ratings for your friends to enhance the community.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let lastScrollTop = 0; // Store last scroll position
+        const logoutButton = document.querySelector('.logout-button');
+        const headerContainer = document.querySelector('.header-container'); // Select header container
+        const explanationItems = document.querySelectorAll('.explanation-section div'); // Select all paragraphs
+
+        // Function to check visibility of each paragraph
+        const checkVisibility = () => {
+            explanationItems.forEach(item => {
+                const rect = item.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                // Check if the element is in the viewport
+                if (rect.top < windowHeight && rect.bottom > 0) {
+                    item.classList.add('visible'); // Show when in view
+                } else {
+                    item.classList.remove('visible'); // Hide when out of view
+                }
+            });
+        };
+
+        // Initial check on page load
+        checkVisibility();
+
+        window.onscroll = function() {
+            const container = document.querySelector('.container');
+            const currentScrollTop = window.scrollY;
+
+            // Check if scrolled to the bottom of the container
+            if (currentScrollTop + window.innerHeight >= container.offsetTop + container.offsetHeight) {
+                logoutButton.style.display = 'block'; // Show button
+            } else {
+                logoutButton.style.display = 'none'; // Hide button
+            }
+
+            // Show or hide button based on scroll direction
+            if (currentScrollTop > lastScrollTop) {
+                // Scrolling down
+                logoutButton.style.display = 'block';
+            } else {
+                // Scrolling up
+                logoutButton.style.display = 'none';
+            }
+
+            lastScrollTop = currentScrollTop; // Update last scroll position
+            checkVisibility(); // Check visibility for animation
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+.register-container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #004ea1;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;  /* Ensure body stretches for full height */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    transition: transform 0.3s ease; /* Add smooth transition */
+}
+
+.header-container a {
+    color: white; /* Change this to your desired link color */
+    text-decoration: none; /* Remove underline */
+}
+
+.header-container a:hover {
+    color: #ffcc00; /* Change this to a hover color */
+}
+
+/* Container Styling */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form contents are displayed properly */
+form label {
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+form input, form select, form textarea, form button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Back to Homepage Button */
+.back-button {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-button a {
+    text-decoration: none;
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.back-button a:hover {
+    background-color: #d44c2d;
+}
+
+/* Explanation section styling */
+.explanation-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    padding: 20px;
+}
+
+/* Flexbox for horizontal paragraphs */
+.explanation-section div {
+    flex: 1;
+    margin: 0 10px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .explanation-section {
+        flex-direction: column;
+    }
+    .explanation-section div {
+        margin-bottom: 20px;
+    }
+}
