@@ -1,10 +1,14 @@
-<?php
-session_start();
-session_unset(); // Unset session variables
-session_destroy(); // Destroy the session
-header("Location: register.html"); // Redirect to the login page
-exit();
-?>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+    // Invalidate the session
+    HttpSession session = request.getSession(false); // Fetch existing session if it exists
+    if (session != null) {
+        session.invalidate(); // Destroy the session
+    }
+
+    // Redirect to the login page
+    response.setHeader("Refresh", "3; URL=register.html"); // Redirect after 3 seconds
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,6 +27,6 @@ exit();
     </style>
 </head>
 <body>
-    <p>You have been logged out. Redirecting to login page...</p>
+    <p>You have been logged out. Redirecting to the login page...</p>
 </body>
 </html>
